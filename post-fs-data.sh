@@ -33,6 +33,7 @@ fi
 # Cleanup and replacements (avoiding duplicates with service.sh)
 for prop in $(getprop | grep -E "aosp_|test-keys" | cut -d ":" -f 1 | tr -d '[]'); do
     replace_value_resetprop "$prop" "aosp_" ""
+    replace_value_resetprop "$prop" "lineage_" ""
     replace_value_resetprop "$prop" "test-keys" "release-keys"
 done
 
@@ -45,5 +46,6 @@ for prefix in system vendor system_ext product oem odm vendor_dlkm odm_dlkm boot
     # Replace values in all relevant properties
     for prop in ro.${prefix}.build.description ro.${prefix}.build.fingerprint ro.product.${prefix}.name; do
         replace_value_resetprop "$prop" "aosp_" ""
+        replace_value_resetprop "$prop" "lineage_" ""
     done
 done
