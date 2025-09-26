@@ -1,6 +1,6 @@
 id=sensitive_props
-name=Sensitive Props Mod
-version=v6.5.0-hexpatch
-versionCode=60507
-author=@T3SL4
-description=Reset sensitive properties to a safe state and try to bypass Safetynet / Play Integrity.
+name=Sensitive Props NEXT
+version=v1.0.0
+versionCode=1
+author=@unknown
+description=Reset sensitive properties to a safe state and try to bypass Root Detectors / Play Integrity.
