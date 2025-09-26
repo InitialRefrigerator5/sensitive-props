@@ -16,7 +16,7 @@ while [ "$(getprop sys.boot_completed)" != 1 ]; do sleep 2; done
 until [ -d "/sdcard/Android" ]; do sleep 3; done
 
 ### Props ###
-hexpatch_deleteprop "LSPosed" \
+deleteprop "LSPosed" \
 	"custom.device" "modversion" \
 	"lineage" "aospa" "pixelexperience" "evolution" "pixelos" "pixelage" "crdroid" "crDroid" "aospa" \
 	"aicp" "arter97" "blu_spark" "cyanogenmod" "deathly" "elementalx" "elite" "franco" "hadeskernel" \
