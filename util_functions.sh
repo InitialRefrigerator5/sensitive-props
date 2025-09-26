@@ -78,55 +78,24 @@ replace_value_resetprop() { # Replace a substring in a property's value
     [ "$VALUE" == "$VALUE_NEW" ] || resetprop $(_build_resetprop_args "$1") "$VALUE_NEW"
 }
 
-# This function aims to delete or obfuscate specific strings within Android system properties,
-# by replacing them with random hexadecimal values which should match with the original string length.
-hexpatch_deleteprop() {
-    # Path to magiskboot (determine it once, at the beginning)
-    magiskboot_path=$(which magiskboot 2>/dev/null || find /data/adb /data/data/me.bmax.apatch/patch/ -name magiskboot -print -quit 2>/dev/null)
-    [ -z "$magiskboot_path" ] && abort "magiskboot not found" false
-
-    # Loop through all arguments passed to the function
+deleteprop() {
     for search_string in "$@"; do
-        # Hex representation in uppercase
-        search_hex=$(echo -n "$search_string" | xxd -p | tr '[:lower:]' '[:upper:]')
+        # Find all property names containing the search string
+        getprop | cut -d'[' -f2 | cut -d']' -f1 | grep -- "$search_string" | while read -r prop_name; do
+            if [ -z "$prop_name" ]; then continue; fi
 
-        # Generate a random LOWERCASE alphanumeric string of the required length, using only 0-9 and a-f
-        replacement_string=$(cat /dev/urandom | tr -dc '0-9a-f' | head -c ${#search_string})
+            resetprop -p --delete "$prop_name" >/dev/null 2>&1
 
-        # Convert the replacement string to hex and ensure it's in uppercase
-        replacement_hex=$(echo -n "$replacement_string" | xxd -p | tr '[:lower:]' '[:upper:]')
-
-        # Get property list from search string
-        # Then get a list of property file names using resetprop -Z and pipe it to find
-        getprop | cut -d'[' -f2 | cut -d']' -f1 | grep "$search_string" | while read prop_name; do
-            resetprop -Z "$prop_name" | cut -d' ' -f2 | cut -d':' -f3 | while read -r prop_file_name_base; do
-                # Use find to locate the actual property file (potentially in a subdirectory)
-                # and iterate directly over the found paths
-                find /dev/__properties__/ -name "*$prop_file_name_base*" | while read -r prop_file; do
-                    # echo "Patching $prop_file: $search_hex -> $replacement_hex"
-                    "$magiskboot_path" hexpatch "$prop_file" "$search_hex" "$replacement_hex" >/dev/null 2>&1
-
-                    # Check if the patch was successfully applied
-                    if [ $? -eq 0 ]; then
-                        echo " ? Successfully patched $prop_file (replaced part of '$search_string' with '$replacement_string')"
-                    # else
-                    #   echo " ! Failed to patch $prop_file (replacing part of '$search_string')."
-                    fi
-                done
-            done
-
-            # Unset the property after patching to ensure the change takes effect
-            resetprop -n --delete "$prop_name"
-            ret=$?
-
-            if [ $ret -eq 0 ]; then
-                echo " ? Successfully unset $prop_name"
+            # Verify that the property is now empty
+            if [ -z "$(getprop "$prop_name")" ]; then
+                ui_print "   ? Verified: $prop_name is gone."
             else
-                echo " ! Failed to unset $prop_name"
+                ui_print "   ! Verification failed: $prop_name still exists."
             fi
         done
     done
 }
+
 
 # Since it is unsafe to change full length strings within binary image pages
 # We must specify short strings for the search so that there are not binary chunks in between
