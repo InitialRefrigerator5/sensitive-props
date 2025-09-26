@@ -1,13 +1,11 @@
 
 # Sensitive_Props Mod
 
-This Magisk Module resets sensitive properties to a safe state and tries to bypass SafetyNet / Play Integrity.
+This Magisk Module resets sensitive properties to a safe state and tries to bypass Root Detectors / Play Integrity.
 
 ## Why this fork exists
 
 This project is a fork of the original [`sensitive_props`](https://github.com/Magisk-Modules-Alt-Repo/sensitive_props) module, which was a collaborative effort by many developers on GitHub. While the original project seems to be inactive, this fork continues its development with significant changes and improvements, primarily based on the `HuskyDG` base.
-
-This fork introduces major changes and enhancements, focusing on efficiency, compatibility, and addressing new SafetyNet/Play Integrity challenges. It aims to provide a reliable solution for bypassing restrictions and enhancing privacy on rooted Android devices.
 
 ## Features
 
@@ -25,17 +23,15 @@ This fork introduces major changes and enhancements, focusing on efficiency, com
 
 * **Disables restrictions:** Disables developer options and untrusted touches to prevent potential security risks.
 
-* **Undetectable property deletion:** Utilizes a `hexpatch` method for deleting properties, making it undetectable by SafetyNet. This method was necessary due to limitations in the `magiskboot` applet, and despite requests for improvement, the maintainer ([`topjohnwu on issue 8315`](https://github.com/topjohnwu/Magisk/issues/8315)) opted not to introduce a proper fix.
-
 ## Requirements
 
-* Magisk v26.3+ (26302+) or KernelSU or APatch (latest version)
+* Magisk v27+ (27005+) or KernelSU or APatch (latest version)
 
 * Android 11+
 
 ## Installation
 
-1. Install the module from the Magisk app or KernelSU app.
+1. Install the module from the Magisk/KernelSU/APatch app.
 
 2. Reboot your device.
 
@@ -67,7 +63,7 @@ This fork introduces major changes and enhancements, focusing on efficiency, com
 
 ## Credits
 
-* [T3SL4](https://t.me/T3SL4) on [PixelProps](https://t.me/PixelProps) (me, author of this fork)
+* [T3SL4](https://t.me/T3SL4) 
 
 * HuskyDG (original base)
 
