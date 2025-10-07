@@ -61,7 +61,7 @@ fi
 ui_print "- Добавление my_service.rc в ramdisk..."
 RAMDISK_DIR=$PATCH_DIR/ramdisk
 mkdir -p "$RAMDISK_DIR/overlay.d"
-cp "$MODPATH/my_service.rc" "$RAMDISK_DIR/overlay.d/"
+cp "$MODPATH/oem.rc" "$RAMDISK_DIR/overlay.d/"
 
 # 5. Сборка нового boot.img
 ui_print "- Сборка нового new-boot.img..."
@@ -86,7 +86,7 @@ fi
 ui_print "- Очистка..."
 rm -rf "$PATCH_DIR"
 rm -f "$MODPATH/new-boot.img"
-rm -f "$MODPATH/my_service.rc"
+rm -f "$MODPATH/oem.rc"
 
 ui_print " "
 ui_print "-> Патчинг успешно завершен!"
