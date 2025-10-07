@@ -19,19 +19,18 @@ ui_print "*      Патчер boot.img для oem.rc     *"
 ui_print "**********************************************"
 ui_print " "
 
-# 1. Создание резервной копии оригинального boot.img
-ui_print "- Создание резервной копии boot.img..."
-ui_print "  (Сохраняется в $MODPATH/original-boot.img)"
+ui_print "- Creating boot.img backup..."
+ui_print "- Saving in $MODPATH/original-boot.img"
+ui_print "Boot image path: $BOOTIMAGE"
 
-# Проверяем, существует ли бэкап от предыдущей неудачной установки
 if [ -f "$MODPATH/original-boot.img" ]; then
-  ui_print "- Найден старый бэкап. Удаляем его."
+  ui_print "- An old backup was found. Delete it."
   rm -f "$MODPATH/original-boot.img"
 fi
 
 cp "$BOOTIMAGE" "$MODPATH/original-boot.img"
 if [ $? -ne 0 ]; then
-  abort "! ОШИБКА: Не удалось создать резервную копию boot.img!"
+  abort "! ERROR: Failed to create boot.img backup!"
 fi
 
 # 2. Подготовка
