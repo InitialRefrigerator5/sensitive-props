@@ -5,12 +5,6 @@ if [ "$API" -lt 29 ]; then
   abort "! Only support Android 10+ devices"
 fi
 
-# Set Module permissions
-set_perm_recursive "$MODPATH" 0 0 0755 0644
-
-# Running the service early using busybox
-[ -f "$MODPATH/service.sh" ] && sh "$MODPATH/service.sh" 2>&1
-
 if [ "$BOOTMODE" != true ]; then
   ui_print "-----------------------------------------------------------"
   ui_print " "
@@ -87,6 +81,13 @@ ui_print "- Очистка..."
 rm -rf "$PATCH_DIR"
 rm -f "$MODPATH/new-boot.img"
 rm -f "$MODPATH/oem.rc"
+
+
+# Set Module permissions
+set_perm_recursive "$MODPATH" 0 0 0755 0644
+
+# Running the service early using busybox
+[ -f "$MODPATH/service.sh" ] && sh "$MODPATH/service.sh" 2>&1
 
 ui_print " "
 ui_print "-> Патчинг успешно завершен!"
